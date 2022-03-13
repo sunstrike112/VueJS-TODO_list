@@ -1,4 +1,5 @@
 <template>
+  <AddTodo @add-todo="addTodo" />
   <TodoItem
     v-for="todo in todos"
     :key="todo.id"
@@ -10,28 +11,31 @@
 
 <script>
 import { ref } from "vue"
+import {v4 as uuidv4} from "uuid"
 
 import TodoItem from "./TodoItem.vue"
+import AddTodo from "./AddTodo.vue"
 
 export default {
   name: "TodoCompoment",
   components: {
     TodoItem,
+    AddTodo,
   },
   setup() {
     const todos = ref([
       {
-        id: 1,
+        id: uuidv4(),
         title: "Learn Vue",
         completed: false,
       },
       {
-        id: 2,
+        id: uuidv4(),
         title: "Learn Vuex",
         completed: false,
       },
       {
-        id: 3,
+        id: uuidv4(),
         title: "Learn Vue Router",
         completed: false,
       },
@@ -48,10 +52,16 @@ export default {
       todos.value = todos.value.filter((todo) => todo.id !== id)
     }
 
+    const addTodo = (newTodo) => {
+      console.log(newTodo)
+      todos.value.push(newTodo)
+    }
+
     return {
       todos,
       markCompleted,
       deleteTodo,
+      addTodo
     }
   },
 }
